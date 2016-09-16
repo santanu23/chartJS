@@ -4,31 +4,55 @@
 <head>
 	<meta charset="utf-8" />
 	<title></title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<script src="Chart.Core.js"></script>
 	<script src="Chart.Scatter.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+
 </head>
 <body>
-	<canvas id="header-canvas" width="640" height="480"></canvas>
+	<center>
+	<h1>Chart Title</h1>
+	<canvas id="header-canvas" width="1600" height="800"></canvas>
 	<div id="legend"></div>
-
+	<button id="data1" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+  Data1
+	</button>
+	<button id="data2" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+  Data2
+	</button>
+</center>
 	<script>
+	$('#data1').on('click', function () {
+		if(myChart.datasets[0].strokeColor == "rgba(0,0,0,0)")
+		{
+			myChart.datasets[0].strokeColor = "#007ACC";
+		}
+		else{
+				myChart.datasets[0].strokeColor = "rgba(0,0,0,0)";}
+	});
+
 		function getRandomInt(min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
 
 		var data = [], data2 = [], ii = 0;
 
-
-
 		var ctx = document.getElementById("header-canvas").getContext("2d");
-		var myChart = new Chart(ctx).Scatter([{ label: "dataset 1", data: data }, { label: "dataset 2", data: data2 }], {
+		var myChart = new Chart(ctx).Scatter([{label: "dataset 1", data: data, strokeColor: '#007ACC', datasetStroke: true}, { label: "dataset 2", data: data2,strokeColor: '#F16220', datasetStroke: true}], {
 			showScale: true,
 			scaleShowLabels: true,
 			scaleShowHorizontalLines: true,
 			scaleShowVerticalLins: false,
 			scaleLineWidth: 1,
-			scaleLineColor: "red",
-			scaleGridLineColor: "#999",
+			scaleLineColor: "black",
+			scaleGridLineColor: "rgba(0,0,0,.25)",
 			scaleLabel: "<%=value%>°C",
 			scaleDateFormat: "mm/yyyy",
 			scaleTimeFormat: "HH:MM",
@@ -38,7 +62,7 @@
 			pointDot: false,
 			scaleType: 'date',
 			animation: false,
-
+			lineTension: 1,
 			scaleOverride: false,
 			scaleSteps: 3,
 			scaleStepWidth: 50,
@@ -65,13 +89,13 @@
 			x = 0;
 			myChart.datasets[0].addPoint(arg, getRandomInt(0, 100));
 			myChart.datasets[1].addPoint(arg, getRandomInt(0, 100));
-			if(myChart.datasets[0].points.length > 10){
+			if(myChart.datasets[0].points.length > 100){
 				myChart.datasets[0].removePoint(x);
 				myChart.datasets[1].removePoint(x++);
 			}
-			myChart.update(), ii++;
+			myChart.update(); ii++;
 
-		}, 1000);
+		}, 100);
 	</script>
 </body>
 </html>
